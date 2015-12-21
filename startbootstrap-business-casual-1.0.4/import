@@ -1,0 +1,28 @@
+#!/usr/bin/env php
+
+<?php
+    // requires previous files
+    require("config.php"); 
+    // check if the file exits and for readability
+    if(!file_exists($argv[1]))
+    {
+        exit;
+    }
+    if(!is_readable($argv[1]))
+    {
+        exit;
+    }
+    // creates an array for data
+    $data = [];
+    // gets each line with fgetcsv and then INSERT into table
+    if (($handle = fopen("$argv[1]", "r")) !== FALSE) 
+    {
+        while (($data = fgetcsv($handle, 0, ",")) !== FALSE) 
+        {
+            CS50::query("INSERT INTO faq (answer, keyword0, keyword1, keyword2, keyword3, keyword4, keyword5, keyword6, keyword7, keyword8) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", $data[0],$data[1],$data[2],$data[3],
+            $data[4],$data[5], $data[6], $data[7], $data[8], $data[9]);
+        }  
+        // close file
+        fclose($handle);
+    }
+?>
